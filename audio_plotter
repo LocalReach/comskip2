@@ -34,7 +34,7 @@ def audio_callback(indata, frames, time, status):
 
 
 # Takes frame of audio samples from the queue and update to the lines
-def update_plot(fram):
+def update_plot(frames):
 	global plotdata
 	while True:
 		try: 
@@ -63,7 +63,8 @@ plt.xticks([])
 # INPUT FROM MIC
 stream = sd.InputStream(device=device, channels=max(channels), samplerate=samplerate, callback=audio_callback)
 	
-animation = FuncAnimation(fig, update_plot, interval=interval, blit=True)
+animation = FuncAnimation(fig, update_plot, interval=interval, blit=True, cache_frame_data=False)
 
-plt.show()
+with stream:
+	plt.show()
 
